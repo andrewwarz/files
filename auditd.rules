@@ -1,0 +1,191 @@
+-D
+-b 8192
+-f 1
+-a always,exclude -F msgtype=AVC
+-a always,exclude -F msgtype=CWD
+-a never,user -F subj_type=crond_t
+-a never,exit -F subj_type=crond_t
+-a never,exit -F arch=b32 -S adjtimex -F auid=unset -F uid=chrony -F subj_type=chronyd_t
+-a never,exit -F arch=b64 -S adjtimex -F auid=unset -F uid=chrony -F subj_type=chronyd_t
+-a always,exclude -F msgtype=CRYPTO_KEY_USER
+-a never,exit -F arch=b32 -S fork -F success=0 -F path=/usr/lib/vmware-tools -F subj_type=initrc_t -F exit=-2
+-a never,exit -F arch=b64 -S fork -F success=0 -F path=/usr/lib/vmware-tools -F subj_type=initrc_t -F exit=-2
+-a exit,never -F arch=b32 -S all -F exe=/usr/bin/vmtoolsd
+-a exit,never -F arch=b64 -S all -F exe=/usr/bin/vmtoolsd
+-a never,exit -F arch=b32 -F dir=/dev/shm -k sharedmemaccess
+-a never,exit -F arch=b64 -F dir=/dev/shm -k sharedmemaccess
+-a never,exit -F arch=b32 -F dir=/var/lock/lvm -k locklvm
+-a never,exit -F arch=b64 -F dir=/var/lock/lvm -k locklvm
+-a never,exit -F arch=b32 -F path=/opt/filebeat -k filebeat
+-a never,exit -F arch=b64 -F path=/opt/filebeat -k filebeat
+-a always,exit -F arch=b64 -S execve -F euid=0 -F auid>=1000 -F auid!=4294967295 -F key=audit-wazuh-c
+-a always,exit -F arch=b32 -S execve -F euid=0 -F auid>=1000 -F auid!=4294967295 -F key=audit-wazuh-c
+-a always,exit -F perm=x -F auid!=-1 -F path=/sbin/insmod -k audit-wazuh-c
+-a always,exit -F perm=x -F auid!=-1 -F path=/sbin/modprobe -k audit-wazuh-c
+-a always,exit -F perm=x -F auid!=-1 -F path=/sbin/rmmod -k audit-wazuh-c
+-a always,exit -F arch=b64 -S finit_module -S init_module -S delete_module -F auid!=-1 -k audit-wazuh-c
+-a always,exit -F arch=b32 -S finit_module -S init_module -S delete_module -F auid!=-1 -k audit-wazuh-c
+-w /etc/sysctl.conf -p w -k audit-wazuh-w
+-w /etc/sysctl.d -p w -k audit-wazuh-w
+-w /etc/sysctl.conf -p a -k audit-wazuh-a
+-w /etc/sysctl.d -p a -k audit-wazuh-a
+-w /etc/modprobe.conf -p wa -k audit-wazuh-w
+-w /etc/modprobe.d -p wa -k audit-wazuh-w
+-w /etc/modprobe.conf -p a -k audit-wazuh-a
+-w /etc/modprobe.d -p a -k audit-wazuh-a
+-a always,exit -F arch=b64 -S kexec_load -k audit-wazuh-c
+-a always,exit -F arch=b32 -S sys_kexec_load -k audit-wazuh-c
+-a always,exit -F arch=b32 -S mknod -S mknodat -F auid!=-1 -k audit-wazuh-c
+-a always,exit -F arch=b64 -S mknod -S mknodat -F auid!=-1 -k audit-wazuh-c
+-a always,exit -F arch=b64 -S mount -S umount2 -F auid!=-1 -k audit-wazuh-c
+-a always,exit -F arch=b32 -S mount -S umount -S umount2 -F auid!=-1 -k audit-wazuh-c
+-a always,exit -F arch=b64 -S swapon -S swapoff -F auid!=-1 -k audit-wazuh-c
+-a always,exit -F arch=b32 -S swapon -S swapoff -F auid!=-1 -k audit-wazuh-c
+-w /etc/localtime -p w -k audit-wazuh-w
+-w /etc/localtime -p a -k audit-wazuh-a
+-w /usr/sbin/stunnel -F auid!=-1 -p x -k audit-wazuh-x
+-w /usr/bin/stunnel -F auid!=-1 -p x -k audit-wazuh-x
+-w /etc/cron.allow -p w -k audit-wazuh-w
+-w /etc/cron.deny -p w -k audit-wazuh-w
+-w /etc/cron.d/ -p w -k audit-wazuh-w
+-w /etc/cron.daily/ -p w -k audit-wazuh-w
+-w /etc/cron.hourly/ -p w -k audit-wazuh-w
+-w /etc/cron.monthly/ -p w -k audit-wazuh-w
+-w /etc/cron.weekly/ -p w -k audit-wazuh-w
+-w /etc/crontab -p w -k audit-wazuh-w
+-w /etc/cron.allow -p a -k audit-wazuh-a
+-w /etc/cron.deny -p a -k audit-wazuh-a
+-w /etc/cron.d/ -p a -k audit-wazuh-a
+-w /etc/cron.daily/ -p a -k audit-wazuh-a
+-w /etc/cron.hourly/ -p a -k audit-wazuh-a
+-w /etc/cron.monthly/ -p a -k audit-wazuh-a
+-w /etc/cron.weekly/ -p a -k audit-wazuh-a
+-w /etc/crontab -p a -k audit-wazuh-a
+-w /etc/group -p w -k audit-wazuh-w
+-w /etc/passwd -p w -k audit-wazuh-w
+-w /etc/group -p a -k audit-wazuh-a
+-w /etc/passwd -p a -k audit-wazuh-a
+-w /etc/sudoers -p w -k audit-wazuh-w
+-w /etc/sudoers.d/ -p w -k audit-wazuh-w
+-w /etc/sudoers -p a -k audit-wazuh-a
+-w /etc/sudoers.d/ -p a -k audit-wazuh-a
+-w /usr/bin/passwd -F auid!=-1 -p x -k audit-wazuh-x
+-w /usr/sbin/groupadd -p x -k audit-wazuh-x
+-w /usr/sbin/groupmod -p x -k audit-wazuh-x
+-w /usr/sbin/addgroup -p x -k audit-wazuh-x
+-w /usr/sbin/useradd -p x -k audit-wazuh-x
+-w /usr/sbin/userdel -p x -k audit-wazuh-x
+-w /usr/sbin/usermod -p x -k audit-wazuh-x
+-w /usr/sbin/adduser -p x -k audit-wazuh-x
+-w /etc/login.defs -p w -k audit-wazuh-w
+-w /etc/securetty -p w -k audit-wazuh-w
+-w /var/log/faillog -p w -k audit-wazuh-w
+-w /var/log/lastlog -p w -k audit-wazuh-w
+-w /var/log/tallylog -p w -k audit-wazuh-w
+-w /etc/login.defs -p a -k audit-wazuh-a
+-w /etc/securetty -p a -k audit-wazuh-a
+-w /var/log/faillog -p a -k audit-wazuh-a
+-w /var/log/lastlog -p a -k audit-wazuh-a
+-w /var/log/tallylog -p a -k audit-wazuh-a
+-a always,exit -F arch=b32 -S sethostname -S setdomainname -k audit-wazuh-c
+-a always,exit -F arch=b64 -S sethostname -S setdomainname -k audit-wazuh-c
+-w /etc/hosts -p w -k audit-wazuh-w
+-w /etc/sysconfig/network -p w -k audit-wazuh-w
+-w /etc/sysconfig/network-scripts -p w -k audit-wazuh-w
+-w /etc/network/ -p w -k audit-wazuh-w
+-w /etc/hosts -p a -k audit-wazuh-a
+-w /etc/sysconfig/network -p a -k audit-wazuh-a
+-w /etc/network/ -p a -k audit-wazuh-a
+-w /etc/issue -p w -k audit-wazuh-w
+-w /etc/issue.net -p w -k audit-wazuh-w
+-w /etc/issue -p a -k audit-wazuh-a
+-w /etc/issue.net -p a -k audit-wazuh-a
+-w /etc/inittab -p w -k audit-wazuh-w
+-w /etc/init.d/ -p w -k audit-wazuh-w
+-w /etc/init/ -p w -k audit-wazuh-w
+-w /etc/inittab -p a -k audit-wazuh-a
+-w /etc/init.d/ -p a -k audit-wazuh-a
+-w /etc/init/ -p a -k audit-wazuh-a
+-w /etc/ld.so.conf -p w -k audit-wazuh-w
+-w /etc/ld.so.conf.d -p w -k audit-wazuh-w
+-w /etc/ld.so.conf -p a -k audit-wazuh-a
+-w /etc/ld.so.conf.d -p a -k audit-wazuh-a
+-w /etc/ld.so.preload -p w -k audit-wazuh-w
+-w /etc/ld.so.preload -p a -k audit-wazuh-a
+-w /etc/pam.d/ -p w -k audit-wazuh-w
+-w /etc/security/limits.conf -p w -k audit-wazuh-w
+-w /etc/security/limits.d -p w -k audit-wazuh-w
+-w /etc/security/pam_env.conf -p w -k audit-wazuh-w
+-w /etc/security/namespace.conf -p w -k audit-wazuh-w
+-w /etc/security/namespace.d -p w -k audit-wazuh-w
+-w /etc/security/namespace.init -p w -k audit-wazuh-w
+-w /etc/pam.d/ -p a -k audit-wazuh-a
+-w /etc/security/limits.conf -p a -k audit-wazuh-a
+-w /etc/security/limits.d -p a -k audit-wazuh-a
+-w /etc/security/pam_env.conf -p a -k audit-wazuh-a
+-w /etc/security/namespace.conf -p a -k audit-wazuh-a
+-w /etc/security/namespace.d -p a -k audit-wazuh-a
+-w /etc/security/namespace.init -p a -k audit-wazuh-a
+-w /etc/aliases -p w -k audit-wazuh-w
+-w /etc/postfix/ -p w -k audit-wazuh-w
+-w /etc/exim4/ -p w -k audit-wazuh-w
+-w /etc/aliases -p a -k audit-wazuh-a
+-w /etc/postfix/ -p a -k audit-wazuh-a
+-w /etc/exim4/ -p a -k audit-wazuh-a
+-w /etc/ssh/sshd_config -k audit-wazuh-w
+-w /etc/ssh/sshd_config.d -k audit-wazuh-w
+-w /root/.ssh -p w -k audit-wazuh-w
+-w /root/.ssh -p a -k audit-wazuh-a
+-w /bin/systemctl -F auid!=-1 -p x -k audit-wazuh-x
+-w /etc/systemd/ -p w -k audit-wazuh-w
+-w /usr/lib/systemd -p w -k audit-wazuh-w
+-w /etc/systemd/ -p a -k audit-wazuh-a
+-w /usr/lib/systemd -p a -k audit-wazuh-a
+-w /etc/selinux/ -p w -k audit-wazuh-w
+-w /etc/selinux/ -p a -k audit-wazuh-a
+-a always,exit -F arch=b64 -S open -F dir=/etc -F success=0 -k audit-wazuh-c
+-a always,exit -F arch=b64 -S open -F dir=/bin -F success=0 -k audit-wazuh-c
+-a always,exit -F arch=b64 -S open -F dir=/sbin -F success=0 -k audit-wazuh-c
+-a always,exit -F arch=b64 -S open -F dir=/usr/bin -F success=0 -k audit-wazuh-c
+-a always,exit -F arch=b64 -S open -F dir=/usr/sbin -F success=0 -k audit-wazuh-c
+-a always,exit -F arch=b64 -S open -F dir=/var -F success=0 -k audit-wazuh-c
+-a always,exit -F arch=b64 -S open -F dir=/home -F success=0 -k audit-wazuh-c
+-a always,exit -F arch=b64 -S open -F dir=/srv -F success=0 -k audit-wazuh-c
+-w /bin/su -F auid!=-1 -p x -k audit-wazuh-x
+-w /usr/bin/sudo -F auid!=-1 -p x -k audit-wazuh-x
+-w /sbin/shutdown -p x -k audit-wazuh-x
+-w /sbin/poweroff -p x -k audit-wazuh-x
+-w /sbin/reboot -p x -k audit-wazuh-x
+-w /sbin/halt -p x -k audit-wazuh-x
+-w /var/run/utmp -p w -k audit-wazuh-w
+-w /var/log/btmp -p w -k audit-wazuh-w
+-w /var/log/wtmp -p w -k audit-wazuh-w
+-w /var/run/utmp -p a -k audit-wazuh-a
+-w /var/log/btmp -p a -k audit-wazuh-a
+-w /var/log/wtmp -p a -k audit-wazuh-a
+-a always,exit -F arch=b32 -S chmod -F auid>=1000 -F auid!=-1 -k audit-wazuh-c
+-a always,exit -F arch=b32 -S chown -F auid>=1000 -F auid!=-1 -k audit-wazuh-c
+-a always,exit -F arch=b32 -S fchmod -F auid>=1000 -F auid!=-1 -k audit-wazuh-c
+-a always,exit -F arch=b32 -S fchmodat -F auid>=1000 -F auid!=-1 -k audit-wazuh-c
+-a always,exit -F arch=b32 -S fchown -F auid>=1000 -F auid!=-1 -k audit-wazuh-c
+-a always,exit -F arch=b32 -S fchownat -F auid>=1000 -F auid!=-1 -k audit-wazuh-c
+-a always,exit -F arch=b32 -S fremovexattr -F auid>=1000 -F auid!=-1 -k audit-wazuh-c
+-a always,exit -F arch=b32 -S fsetxattr -F auid>=1000 -F auid!=-1 -k audit-wazuh-c
+-a always,exit -F arch=b32 -S lchown -F auid>=1000 -F auid!=-1 -k audit-wazuh-c
+-a always,exit -F arch=b32 -S lremovexattr -F auid>=1000 -F auid!=-1 -k audit-wazuh-c
+-a always,exit -F arch=b32 -S lsetxattr -F auid>=1000 -F auid!=-1 -k audit-wazuh-c
+-a always,exit -F arch=b32 -S removexattr -F auid>=1000 -F auid!=-1 -k audit-wazuh-c
+-a always,exit -F arch=b32 -S setxattr -F auid>=1000 -F auid!=-1 -k audit-wazuh-c
+-a always,exit -F arch=b64 -S chmod  -F auid>=1000 -F auid!=-1 -k audit-wazuh-c
+-a always,exit -F arch=b64 -S chown -F auid>=1000 -F auid!=-1 -k audit-wazuh-c
+-a always,exit -F arch=b64 -S fchmod -F auid>=1000 -F auid!=-1 -k audit-wazuh-c
+-a always,exit -F arch=b64 -S fchmodat -F auid>=1000 -F auid!=-1 -k audit-wazuh-c
+-a always,exit -F arch=b64 -S fchown -F auid>=1000 -F auid!=-1 -k audit-wazuh-c
+-a always,exit -F arch=b64 -S fchownat -F auid>=1000 -F auid!=-1 -k audit-wazuh-c
+-a always,exit -F arch=b64 -S fremovexattr -F auid>=1000 -F auid!=-1 -k audit-wazuh-c
+-a always,exit -F arch=b64 -S fsetxattr -F auid>=1000 -F auid!=-1 -k audit-wazuh-c
+-a always,exit -F arch=b64 -S lchown -F auid>=1000 -F auid!=-1 -k audit-wazuh-c
+-a always,exit -F arch=b64 -S lremovexattr -F auid>=1000 -F auid!=-1 -k audit-wazuh-c
+-a always,exit -F arch=b64 -S lsetxattr -F auid>=1000 -F auid!=-1 -k audit-wazuh-c
+-a always,exit -F arch=b64 -S removexattr -F auid>=1000 -F auid!=-1 -k audit-wazuh-c
+-a always,exit -F arch=b64 -S setxattr -F auid>=1000 -F auid!=-1 -k audit-wazuh-c
